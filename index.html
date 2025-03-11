@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Technical Fitness Functions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Conductor E-Commerce Technical Fitness Functions</h1>
+        </header>
+
+        <main>
+            <section class="metrics-selector">
+                <div class="header-controls">
+                    <h2>Select Business Metric</h2>
+                    <button id="showUrlsButton" class="primary-button">View URLs in Score</button>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card" data-metric="conversion_rate">
+                        <h3>Conversion Rate</h3>
+                        <p>Percentage of visitors who complete a purchase</p>
+                    </div>
+                    <div class="metric-card" data-metric="bounce_rate">
+                        <h3>Bounce Rate</h3>
+                        <p>Percentage of visitors who leave without interaction</p>
+                    </div>
+                    <div class="metric-card" data-metric="page_views">
+                        <h3>Page Views</h3>
+                        <p>Total number of pages viewed by users</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="fitness-functions" id="fitnessFunctions">
+                <h2>Technical Fitness Functions</h2>
+                <p class="select-prompt">Select a business metric to see its technical fitness functions</p>
+                <div class="functions-table hidden" id="functionsTable">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fitness Function</th>
+                                <th>Description</th>
+                                <th>Current Value</th>
+                                <th>Target Value</th>
+                                <th>Action</th>
+                                <th>$ Potential Revenue Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody id="functionsList">
+                            <!-- Fitness functions will be populated here -->
+                        </tbody>
+                    </table>
+                    <p class="revenue-note">All potential revenue impact calculations are based on annual revenue of $200M.</p>
+                </div>
+            </section>
+        </main>
+
+        <div class="how-conductor-uses-button-container">
+            <button id="howConductorUsesButton" class="how-conductor-uses-button">How Conductor Uses This</button>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Conductor E-Commerce Technical Fitness Functions</p>
+        </footer>
+    </div>
+    
+    <!-- Diagram page -->
+    <div id="diagramPage" class="diagram-page">
+        <div class="diagram-header">
+            <h2 class="diagram-title">How Conductor Uses This</h2>
+            <button id="closeDiagramButton" class="close-diagram-button">&times;</button>
+        </div>
+        <div class="diagram-container">
+            <p class="diagram-description">
+                Conductor integrates this metrics dashboard directly into our development workflow to ensure that all code changes maintain or improve technical fitness functions. This proactive approach helps prevent performance regressions and ensures continuous optimization.
+            </p>
+            
+            <div class="diagram-image">
+                <svg width="100%" height="400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect width="100%" height="400" fill="#F8F5EE" rx="10" ry="10" />
+                    
+                    <!-- Boxes -->
+                    <rect x="50" y="150" width="150" height="80" fill="#ffffff" stroke="#003366" stroke-width="2" rx="5" ry="5" />
+                    <rect x="250" y="150" width="150" height="80" fill="#ffffff" stroke="#003366" stroke-width="2" rx="5" ry="5" />
+                    <rect x="450" y="150" width="150" height="80" fill="#ffffff" stroke="#003366" stroke-width="2" rx="5" ry="5" />
+                    <rect x="650" y="150" width="150" height="80" fill="#ffffff" stroke="#003366" stroke-width="2" rx="5" ry="5" />
+                    
+                    <!-- Box labels -->
+                    <text x="125" y="180" font-family="'Neuzeit Grotesk', sans-serif" font-size="14" fill="#003366" text-anchor="middle">Fitness Functions Dashboard</text>
+                    <text x="125" y="200" font-family="'Neuzeit Grotesk', sans-serif" font-size="12" fill="#003366" text-anchor="middle">Metrics &amp; Targets</text>
+                    
+                    <text x="325" y="180" font-family="'Neuzeit Grotesk', sans-serif" font-size="14" fill="#003366" text-anchor="middle">Conductor</text>
+                    <text x="325" y="200" font-family="'Neuzeit Grotesk', sans-serif" font-size="12" fill="#003366" text-anchor="middle">Multi-Agent System</text>
+                    
+                    <text x="525" y="180" font-family="'Neuzeit Grotesk', sans-serif" font-size="14" fill="#003366" text-anchor="middle">Code Analysis</text>
+                    <text x="525" y="200" font-family="'Neuzeit Grotesk', sans-serif" font-size="12" fill="#003366" text-anchor="middle">Repository Integration</text>
+                    
+                    <text x="725" y="180" font-family="'Neuzeit Grotesk', sans-serif" font-size="14" fill="#003366" text-anchor="middle">GitHub</text>
+                    <text x="725" y="200" font-family="'Neuzeit Grotesk', sans-serif" font-size="12" fill="#003366" text-anchor="middle">PR Validation</text>
+                    
+                    <!-- Arrows -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#CC6633" />
+                        </marker>
+                    </defs>
+                    <line x1="200" y1="190" x2="240" y2="190" stroke="#CC6633" stroke-width="2" marker-end="url(#arrowhead)" />
+                    <line x1="400" y1="190" x2="440" y2="190" stroke="#CC6633" stroke-width="2" marker-end="url(#arrowhead)" />
+                    <line x1="600" y1="190" x2="640" y2="190" stroke="#CC6633" stroke-width="2" marker-end="url(#arrowhead)" />
+                    
+                    <!-- Feedback loop -->
+                    <path d="M 725 230 C 725 280 125 280 125 230" fill="none" stroke="#003366" stroke-width="2" stroke-dasharray="5,5" />
+                    <polygon points="125,240 125,230 135,235" fill="#003366" />
+                    
+                    <!-- Title -->
+                    <text x="400" y="70" font-family="'Neuzeit Grotesk', sans-serif" font-size="24" font-weight="bold" fill="#003366" text-anchor="middle">Conductor Technical Fitness Functions Flow</text>
+                    
+                    <!-- Description text -->
+                    <text x="400" y="320" font-family="'Neuzeit Grotesk', sans-serif" font-size="14" fill="#003366" text-anchor="middle">Metrics dashboard feeds data to Conductor, which analyzes code changes</text>
+                    <text x="400" y="340" font-family="'Neuzeit Grotesk', sans-serif" font-size="14" fill="#003366" text-anchor="middle">and validates GitHub PRs to ensure they meet technical fitness targets</text>
+                </svg>
+            </div>
+            
+            <p class="diagram-description">
+                Key components of this integration:
+            </p>
+            <ul class="diagram-description">
+                <li><strong>Metrics Dashboard:</strong> Tracks technical fitness functions and their target values.</li>
+                <li><strong>Conductor Multi-Agent System:</strong> Analyzes code changes and evaluates their impact on established metrics.</li>
+                <li><strong>Repository Integration:</strong> Connects directly to your codebase to assess potential changes.</li>
+                <li><strong>GitHub PR Validation:</strong> Checks each pull request against fitness function targets before allowing merges.</li>
+            </ul>
+            <p class="diagram-description">
+                This continuous monitoring and validation process ensures that your application maintains high performance standards and prevents technical degradation over time.
+            </p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

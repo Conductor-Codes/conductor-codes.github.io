@@ -1,0 +1,422 @@
+@import url('https://fonts.cdnfonts.com/css/neuzeit-grotesk');
+
+:root {
+    --bg-color: #F8F5EE;
+    --text-color: #003366;
+    --light-text: #F8F5EE;
+    --accent-color: #CC6633;
+    --card-bg: #fff;
+    --border-color: #e0e0e0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Neuzeit Grotesk', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #003366;
+    position: relative;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.logo-semicircle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-color: #CC6633;
+}
+
+.logo-text {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #003366;
+    letter-spacing: -0.5px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 1.4rem;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+.header-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.primary-button {
+    background-color: var(--text-color);
+    color: var(--light-text);
+    padding: 10px 16px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.primary-button:hover {
+    background-color: #004480;
+    transform: translateY(-2px);
+}
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 25px;
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.modal-close:hover {
+    color: var(--accent-color);
+    background: none;
+}
+
+.url-list {
+    list-style: none;
+    padding: 0;
+}
+
+.url-list li {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.url-list li:last-child {
+    border-bottom: none;
+}
+
+.url-performance {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* How Conductor Uses This button */
+.how-conductor-uses-button-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 90;
+}
+
+.how-conductor-uses-button {
+    background-color: var(--text-color);
+    color: var(--light-text);
+    padding: 12px 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.how-conductor-uses-button:hover {
+    background-color: #004480;
+    transform: translateY(-2px);
+}
+
+/* Diagram page styles */
+.diagram-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.diagram-page.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.diagram-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 20px;
+}
+
+.diagram-title {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.close-diagram-button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-diagram-button:hover {
+    color: var(--accent-color);
+    background: none;
+}
+
+.diagram-container {
+    width: 100%;
+    max-width: 1000px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    max-height: 80vh;
+}
+
+.diagram-description {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.diagram-image {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.metric-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card.selected {
+    border: 2px solid var(--accent-color);
+    background-color: rgba(204, 102, 51, 0.1);
+}
+
+.select-prompt {
+    text-align: center;
+    margin: 30px 0;
+    font-style: italic;
+}
+
+.hidden {
+    display: none;
+}
+
+.functions-table {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: var(--text-color);
+    color: var(--light-text);
+}
+
+th:last-child, td:last-child {
+    text-align: right;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.target-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.unit-label {
+    margin-left: 8px;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+input {
+    padding: 8px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    width: 100%;
+    font-family: 'Neuzeit Grotesk', sans-serif;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: var(--light-text);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Neuzeit Grotesk', sans-serif;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #b55529;
+}
+
+.impact-cell {
+    font-weight: bold;
+    color: var(--accent-color);
+    transition: all 0.3s ease;
+}
+
+.impact-updated {
+    animation: pulse 1s ease;
+}
+
+@keyframes pulse {
+    0% { background-color: rgba(204, 102, 51, 0); }
+    50% { background-color: rgba(204, 102, 51, 0.2); }
+    100% { background-color: rgba(204, 102, 51, 0); }
+}
+
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.revenue-note {
+    margin-top: 15px;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    text-align: right;
+}
+
+footer p::before {
+    content: "Conductor ";
+    font-weight: bold;
+}
