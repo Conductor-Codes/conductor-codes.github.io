@@ -50,15 +50,6 @@ const businessMetrics = {
                 impactPercentage: 0.02 // 0.02% of revenue per 100ms reduced
             },
             {
-                id: "image_load",
-                name: "Image Load Time",
-                description: "Average time to load product images",
-                currentValue: "850 ms",
-                target: "400",
-                unit: "ms",
-                impactPercentage: 0.03 // 0.03% of revenue per 100ms reduced
-            },
-            {
                 id: "checkout_steps",
                 name: "Checkout Process Steps",
                 description: "Number of steps to complete checkout",
@@ -249,9 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const howConductorUsesButton = document.getElementById('howConductorUsesButton');
     const diagramPage = document.getElementById('diagramPage');
     const closeDiagramButton = document.getElementById('closeDiagramButton');
+    const diagnosticsSection = document.getElementById('diagnosticsSection');
     
-    // Keep track of the current selected metric
+    // Keep track of the current selected metric and active row
     let currentMetric = null;
+    let activeRowId = null;
     
     // Create modal for displaying URLs
     function createUrlModal(metricKey) {
@@ -395,6 +388,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show the functions table
         functionsTable.classList.remove('hidden');
         
+        // Hide the diagnostics section when changing metrics
+        diagnosticsSection.classList.add('hidden');
+        activeRowId = null;
+        
         // Clear the previous functions
         functionsList.innerHTML = '';
         
@@ -407,6 +404,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Calculate initial financial impact
             const initialImpact = calculateFinancialImpact(func);
+            
+            // Add clickable class for the page_load_time row
+            if (func.id === "page_load_time") {
+                row.classList.add('clickable-row');
+                row.id = `row-${func.id}`;
+            }
             
             row.innerHTML = `
                 <td>${func.name}</td>
@@ -438,6 +441,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 const saveBtn = document.getElementById(`save-${func.id}`);
                 const resetBtn = document.getElementById(`reset-${func.id}`);
                 const targetInput = document.getElementById(`target-${func.id}`);
+                
+                // Add click event for page_load_time row to show/hide diagnostics
+                if (func.id === "page_load_time") {
+                    const pageLoadRow = document.getElementById(`row-${func.id}`);
+                    if (pageLoadRow) {
+                        pageLoadRow.addEventListener('click', (e) => {
+                            // Don't trigger when clicking on inputs or buttons
+                            if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') {
+                                return;
+                            }
+                            
+                            // Toggle the active class on the row
+                            pageLoadRow.classList.toggle('active');
+                            
+                            // Toggle the diagnostics section
+                            if (diagnosticsSection.classList.contains('hidden')) {
+                                diagnosticsSection.classList.remove('hidden');
+                                activeRowId = func.id;
+                            } else {
+                                if (activeRowId === func.id) {
+                                    diagnosticsSection.classList.add('hidden');
+                                    activeRowId = null;
+                                } else {
+                                    activeRowId = func.id;
+                                }
+                            }
+                        });
+                    }
+                }
                 
                 if (saveBtn && resetBtn && targetInput) {
                     saveBtn.addEventListener('click', () => {
