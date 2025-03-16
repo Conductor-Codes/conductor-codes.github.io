@@ -1,4 +1,3 @@
-// Define the business metrics and their associated technical fitness functions
 // Company revenue for impact calculations
 const COMPANY_REVENUE = 200000000; // $200M
 
@@ -27,68 +26,46 @@ const sampleUrls = {
     ]
 };
 
+// Business metrics data
 const businessMetrics = {
     conversion_rate: {
         name: "Conversion Rate",
         functions: [
             {
-                id: "page_load_time",
-                name: "Average Page Load time (LCP)",
-                description: "Largest Contentful Paint - time to render the largest content element",
-                currentValue: "2.8 seconds",
-                target: "1.5",
+                id: "largest_contentful_paint",
+                name: "Avg Largest Contentful Paint",
+                description: "Time to render the largest content element in the viewport",
+                values: {
+                    sixMonthsAgo: "2.1 seconds",
+                    threeMonthsAgo: "2.4 seconds",
+                    current: "2.8 seconds"
+                },
                 unit: "seconds",
-                impactPercentage: 0.05 // 0.05% of revenue per second reduced
+                revImpact: "$280,000"
             },
             {
-                id: "search_indexing",
-                name: "Search Indexing Speed",
-                description: "Time to index and return search results",
-                currentValue: "450 ms",
-                target: "200",
+                id: "speed_index",
+                name: "Speed Index",
+                description: "Measures how quickly content is visually displayed during page load",
+                values: {
+                    sixMonthsAgo: "3.2 seconds",
+                    threeMonthsAgo: "3.5 seconds",
+                    current: "3.9 seconds"
+                },
+                unit: "seconds",
+                revImpact: "$140,000"
+            },
+            {
+                id: "total_blocking_time",
+                name: "Total Blocking Time",
+                description: "Sum of time where the main thread was blocked for long enough to prevent input responsiveness",
+                values: {
+                    sixMonthsAgo: "120 ms",
+                    threeMonthsAgo: "150 ms",
+                    current: "210 ms"
+                },
                 unit: "ms",
-                impactPercentage: 0.02 // 0.02% of revenue per 100ms reduced
-            },
-            {
-                id: "checkout_steps",
-                name: "Checkout Process Steps",
-                description: "Number of steps to complete checkout",
-                currentValue: "5 steps",
-                target: "3",
-                unit: "steps",
-                impactPercentage: 0.1 // 0.1% of revenue per step reduced
-            }
-        ]
-    },
-    page_views: {
-        name: "Page Views",
-        functions: [
-            {
-                id: "site_availability",
-                name: "Site Availability",
-                description: "Percentage of time the site is accessible",
-                currentValue: "99.2%",
-                target: "99.9",
-                unit: "%",
-                impactPercentage: 0.2 // 0.2% of revenue per 0.1% improvement
-            },
-            {
-                id: "content_freshness",
-                name: "Content Freshness",
-                description: "Average age of dynamic content",
-                currentValue: "48 hours",
-                target: "24",
-                unit: "hours",
-                impactPercentage: 0.01 // 0.01% of revenue per hour reduced
-            },
-            {
-                id: "mobile_responsiveness",
-                name: "Mobile Responsiveness",
-                description: "Mobile viewport compatibility score",
-                currentValue: "85/100",
-                target: "95",
-                unit: "/100",
-                impactPercentage: 0.04 // 0.04% of revenue per 5 points improvement
+                revImpact: "$180,000"
             }
         ]
     },
@@ -96,143 +73,111 @@ const businessMetrics = {
         name: "Bounce Rate",
         functions: [
             {
-                id: "first_contentful_paint",
-                name: "First Contentful Paint",
-                description: "Time until first content is displayed",
-                currentValue: "1.8 seconds",
-                target: "1.0",
+                id: "largest_contentful_paint",
+                name: "Avg Largest Contentful Paint",
+                description: "Time to render the largest content element in the viewport",
+                values: {
+                    sixMonthsAgo: "1.9 seconds",
+                    threeMonthsAgo: "2.3 seconds",
+                    current: "2.6 seconds"
+                },
                 unit: "seconds",
-                impactPercentage: 0.06 // 0.06% of revenue per 0.1 second reduced
+                revImpact: "$140,000"
             },
             {
-                id: "time_to_interactive",
-                name: "Time to Interactive",
-                description: "Time until page becomes fully interactive",
-                currentValue: "3.5 seconds",
-                target: "2.0",
+                id: "speed_index",
+                name: "Speed Index",
+                description: "Measures how quickly content is visually displayed during page load",
+                values: {
+                    sixMonthsAgo: "2.8 seconds",
+                    threeMonthsAgo: "3.2 seconds",
+                    current: "3.7 seconds"
+                },
                 unit: "seconds",
-                impactPercentage: 0.08 // 0.08% of revenue per 0.1 second reduced
+                revImpact: "$180,000"
             },
             {
-                id: "error_rate",
-                name: "JavaScript Error Rate",
-                description: "Rate of JS errors per session",
-                currentValue: "2.1%",
-                target: "0.5",
-                unit: "%",
-                impactPercentage: 0.15 // 0.15% of revenue per 1% reduction
+                id: "total_blocking_time",
+                name: "Total Blocking Time",
+                description: "Sum of time where the main thread was blocked for long enough to prevent input responsiveness",
+                values: {
+                    sixMonthsAgo: "90 ms",
+                    threeMonthsAgo: "135 ms",
+                    current: "180 ms"
+                },
+                unit: "ms",
+                revImpact: "$160,000"
+            }
+        ]
+    },
+    page_views: {
+        name: "Page Views",
+        functions: [
+            {
+                id: "largest_contentful_paint",
+                name: "Avg Largest Contentful Paint",
+                description: "Time to render the largest content element in the viewport",
+                values: {
+                    sixMonthsAgo: "2.0 seconds",
+                    threeMonthsAgo: "2.3 seconds",
+                    current: "2.7 seconds"
+                },
+                unit: "seconds",
+                revImpact: "$140,000"
             },
             {
-                id: "layout_shift",
-                name: "Cumulative Layout Shift",
-                description: "Score measuring visual stability",
-                currentValue: "0.25",
-                target: "0.1",
-                unit: "",
-                impactPercentage: 0.03 // 0.03% of revenue per 0.1 points reduced
+                id: "speed_index",
+                name: "Speed Index",
+                description: "Measures how quickly content is visually displayed during page load",
+                values: {
+                    sixMonthsAgo: "3.0 seconds",
+                    threeMonthsAgo: "3.4 seconds",
+                    current: "3.8 seconds"
+                },
+                unit: "seconds",
+                revImpact: "$160,000"
+            },
+            {
+                id: "total_blocking_time",
+                name: "Total Blocking Time",
+                description: "Sum of time where the main thread was blocked for long enough to prevent input responsiveness",
+                values: {
+                    sixMonthsAgo: "110 ms",
+                    threeMonthsAgo: "145 ms",
+                    current: "195 ms"
+                },
+                unit: "ms",
+                revImpact: "$170,000"
             }
         ]
     }
 };
 
-// Function to calculate the financial impact of a fitness function
-function calculateFinancialImpact(func) {
-    // Get current and target values as numbers
-    let currentNumeric, targetNumeric;
-    
-    // Extract numeric parts from values
-    if (func.id === "page_load_time" || func.id === "promotion_load_time" || 
-        func.id === "first_contentful_paint" || func.id === "time_to_interactive") {
-        currentNumeric = parseFloat(func.currentValue.split(' ')[0]);
-        targetNumeric = parseFloat(func.target);
-    } else if (func.id === "search_indexing" || func.id === "image_load") {
-        currentNumeric = parseFloat(func.currentValue.split(' ')[0]);
-        targetNumeric = parseFloat(func.target);
-    } else if (func.id === "site_availability" || func.id === "recommendation_relevance" || 
-              func.id === "cross_sell_visibility" || func.id === "error_rate") {
-        currentNumeric = parseFloat(func.currentValue.replace('%', ''));
-        targetNumeric = parseFloat(func.target);
-    } else if (func.id === "mobile_responsiveness" || func.id === "pricing_display") {
-        currentNumeric = parseFloat(func.currentValue.split('/')[0]);
-        targetNumeric = parseFloat(func.target);
-    } else if (func.id === "checkout_steps") {
-        currentNumeric = parseFloat(func.currentValue.split(' ')[0]);
-        targetNumeric = parseFloat(func.target);
-    } else if (func.id === "content_freshness") {
-        currentNumeric = parseFloat(func.currentValue.split(' ')[0]);
-        targetNumeric = parseFloat(func.target);
-    } else if (func.id === "layout_shift") {
-        currentNumeric = parseFloat(func.currentValue);
-        targetNumeric = parseFloat(func.target);
-    }
-    
-    // Calculate impact based on improvement
-    let impact = 0;
-    
-    // Different calculation methods based on the metric type
-    if (func.id === "page_load_time" || func.id === "promotion_load_time") {
-        // Impact per second reduced
-        const improvement = Math.max(0, currentNumeric - targetNumeric);
-        impact = improvement * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    } else if (func.id === "search_indexing" || func.id === "image_load") {
-        // Impact per 100ms reduced
-        const improvement = Math.max(0, currentNumeric - targetNumeric);
-        impact = improvement / 100 * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    } else if (func.id === "checkout_steps") {
-        // Impact per step reduced
-        const improvement = Math.max(0, currentNumeric - targetNumeric);
-        impact = improvement * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    } else if (func.id === "site_availability") {
-        // Impact per 0.1% improvement
-        const improvement = Math.max(0, targetNumeric - currentNumeric);
-        impact = improvement * 10 * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    } else if (func.id === "content_freshness") {
-        // Impact per hour reduced
-        const improvement = Math.max(0, currentNumeric - targetNumeric);
-        impact = improvement * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    } else if (func.id === "mobile_responsiveness" || func.id === "pricing_display") {
-        // Impact per 5 points improvement
-        const improvement = Math.max(0, targetNumeric - currentNumeric);
-        impact = improvement / 5 * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    } else if (func.id === "recommendation_relevance" || func.id === "cross_sell_visibility") {
-        // Impact per 5% improvement
-        const improvement = Math.max(0, targetNumeric - currentNumeric);
-        impact = improvement / 5 * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    } else if (func.id === "first_contentful_paint" || func.id === "time_to_interactive") {
-        // Impact per 0.1 second reduced
-        const improvement = Math.max(0, currentNumeric - targetNumeric);
-        impact = improvement * 10 * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    } else if (func.id === "error_rate") {
-        // Impact per 1% reduction
-        const improvement = Math.max(0, currentNumeric - targetNumeric);
-        impact = improvement * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    } else if (func.id === "layout_shift") {
-        // Impact per 0.1 point reduction
-        const improvement = Math.max(0, currentNumeric - targetNumeric);
-        impact = improvement * 10 * (func.impactPercentage / 100) * COMPANY_REVENUE;
-    }
-    
-    return Math.round(impact);
-}
+// Keep track of the selected business metric
+let selectedBusinessMetric = null;
 
-// Function to update the financial impact display
-function updateFinancialImpact(func) {
-    const impactCell = document.getElementById(`impact-${func.id}`);
-    if (impactCell) {
-        const impact = calculateFinancialImpact(func);
-        impactCell.textContent = `$${impact.toLocaleString()}`;
-        
-        // Animate the impact change
-        impactCell.classList.add('impact-updated');
-        setTimeout(() => {
-            impactCell.classList.remove('impact-updated');
-        }, 1000);
+// Function to get trend class based on values
+function getTrendClass(currentValue, previousValue) {
+    const current = parseFloat(currentValue.split(' ')[0]);
+    const previous = parseFloat(previousValue.split(' ')[0]);
+    
+    if (current > previous) {
+        return 'trend-worse';
+    } else if (current < previous) {
+        return 'trend-better';
+    } else {
+        return 'trend-neutral';
     }
 }
 
 // DOM elements - Wait for DOM content to be loaded
 document.addEventListener('DOMContentLoaded', () => {
     const metricCards = document.querySelectorAll('.metric-card');
+    const configSection = document.getElementById('configSection');
+    const urlConfigSection = document.getElementById('urlConfigSection');
+    const metricsSection = document.getElementById('metricsSection');
+    const metricSelector = document.querySelector('.metrics-selector');
+    const businessMetricName = document.getElementById('businessMetricName');
     const functionsList = document.getElementById('functionsList');
     const functionsTable = document.getElementById('functionsTable');
     const selectPrompt = document.querySelector('.select-prompt');
@@ -240,11 +185,164 @@ document.addEventListener('DOMContentLoaded', () => {
     const howConductorUsesButton = document.getElementById('howConductorUsesButton');
     const diagramPage = document.getElementById('diagramPage');
     const closeDiagramButton = document.getElementById('closeDiagramButton');
+    const configureNewButton = document.getElementById('configureNewButton');
     const diagnosticsSection = document.getElementById('diagnosticsSection');
+    const diagnosticsTitle = document.querySelector('.diagnostics-section h3');
+    const addUrlButton = document.getElementById('addUrlButton');
+    const seeFunctionButton = document.getElementById('seeFunctionButton');
+    const urlInputsContainer = document.querySelector('.url-inputs-container');
+    const revImpactNote = document.querySelector('.revenue-note');
     
-    // Keep track of the current selected metric and active row
-    let currentMetric = null;
+    // Keep track of the active row for diagnostics
     let activeRowId = null;
+    let activeUrlIndex = null;
+    
+    // Store user-added URLs
+    let userUrls = [];
+    
+    // Initially hide the metrics and URL sections, show the configuration section
+    metricsSection.classList.add('hidden');
+    urlConfigSection.classList.add('hidden');
+    
+    // Update diagnostics title
+    if (diagnosticsTitle) {
+        diagnosticsTitle.textContent = "Detailed Diagnostics";
+    }
+    
+    // Make sure revenue note is visible
+    if (revImpactNote) {
+        revImpactNote.classList.remove('hidden');
+    }
+    
+    // Function to create a new URL input group
+    function createUrlInput() {
+        const inputGroup = document.createElement('div');
+        inputGroup.className = 'url-input-group';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'url-input';
+        input.placeholder = 'https://example.com/page';
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-url-btn';
+        removeBtn.textContent = 'Remove';
+        
+        // Event listener for remove button
+        removeBtn.addEventListener('click', () => {
+            inputGroup.remove();
+            
+            // If there's only one input left, hide the remove button
+            const inputGroups = document.querySelectorAll('.url-input-group');
+            if (inputGroups.length === 1) {
+                inputGroups[0].querySelector('.remove-url-btn').style.display = 'none';
+            }
+        });
+        
+        inputGroup.appendChild(input);
+        inputGroup.appendChild(removeBtn);
+        
+        return inputGroup;
+    }
+    
+    // Add URL button event listener
+    addUrlButton.addEventListener('click', () => {
+        const newInputGroup = createUrlInput();
+        urlInputsContainer.appendChild(newInputGroup);
+        
+        // Show all remove buttons when there's more than one input
+        const removeButtons = document.querySelectorAll('.remove-url-btn');
+        removeButtons.forEach(btn => {
+            btn.style.display = 'block';
+        });
+    });
+    
+    // See Fitness Functions button event listener
+    seeFunctionButton.addEventListener('click', () => {
+        // Collect URLs from inputs
+        userUrls = [];
+        const urlInputs = document.querySelectorAll('.url-input');
+        urlInputs.forEach(input => {
+            if (input.value.trim()) {
+                userUrls.push(input.value.trim());
+            }
+        });
+        
+        // Hide URL config section
+        urlConfigSection.classList.add('hidden');
+        
+        // Show metrics section
+        metricsSection.classList.remove('hidden');
+        
+        // Update the URLs in the sampleUrls object
+        if (userUrls.length > 0) {
+            sampleUrls[selectedBusinessMetric] = userUrls.map(url => ({
+                url: url,
+                performance: "Analyzing...",
+                issue: "Under analysis"
+            }));
+            
+            // Generate URL-specific metrics data that averages to the parent metrics
+            const metrics = businessMetrics[selectedBusinessMetric].functions;
+            metrics.forEach(metric => {
+                // Reset URL specific values whenever we regenerate
+                metric.urlSpecificValues = [];
+                
+                const sixMonthsAgoBase = parseFloat(metric.values.sixMonthsAgo.split(' ')[0]);
+                const threeMonthsAgoBase = parseFloat(metric.values.threeMonthsAgo.split(' ')[0]);
+                const currentBase = parseFloat(metric.values.current.split(' ')[0]);
+                const unit = metric.values.sixMonthsAgo.includes(' ') ? 
+                    metric.values.sixMonthsAgo.split(' ')[1] : metric.unit;
+                
+                // Generate random variations that average out to the parent value
+                const numUrls = userUrls.length;
+                
+                let sixMonthsAgoSum = 0;
+                let threeMonthsAgoSum = 0;
+                let currentSum = 0;
+                
+                // Generate random variations for all URLs except the last one
+                for (let i = 0; i < numUrls - 1; i++) {
+                    // Variation between -10% and +10% of base value
+                    const variation = Math.random() * 0.2 - 0.1;
+                    
+                    const sixMonthsAgo = Math.max(0, sixMonthsAgoBase * (1 + variation)).toFixed(1);
+                    const threeMonthsAgo = Math.max(0, threeMonthsAgoBase * (1 + variation)).toFixed(1);
+                    const current = Math.max(0, currentBase * (1 + variation)).toFixed(1);
+                    
+                    sixMonthsAgoSum += parseFloat(sixMonthsAgo);
+                    threeMonthsAgoSum += parseFloat(threeMonthsAgo);
+                    currentSum += parseFloat(current);
+                    
+                    metric.urlSpecificValues.push({
+                        url: userUrls[i],
+                        values: {
+                            sixMonthsAgo: `${sixMonthsAgo} ${unit}`,
+                            threeMonthsAgo: `${threeMonthsAgo} ${unit}`,
+                            current: `${current} ${unit}`
+                        }
+                    });
+                }
+                
+                // Calculate the last URL's values to ensure the average matches the parent value
+                const lastSixMonths = Math.max(0, (sixMonthsAgoBase * numUrls - sixMonthsAgoSum)).toFixed(1);
+                const lastThreeMonths = Math.max(0, (threeMonthsAgoBase * numUrls - threeMonthsAgoSum)).toFixed(1);
+                const lastCurrent = Math.max(0, (currentBase * numUrls - currentSum)).toFixed(1);
+                
+                metric.urlSpecificValues.push({
+                    url: userUrls[numUrls - 1],
+                    values: {
+                        sixMonthsAgo: `${lastSixMonths} ${unit}`,
+                        threeMonthsAgo: `${lastThreeMonths} ${unit}`,
+                        current: `${lastCurrent} ${unit}`
+                    }
+                });
+            });
+        }
+        
+        // Display the fitness functions
+        displayFitnessFunctions(selectedBusinessMetric);
+    });
     
     // Create modal for displaying URLs
     function createUrlModal(metricKey) {
@@ -255,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Get URLs for the current metric
-        const urls = sampleUrls[metricKey] || [];
+        const urls = sampleUrls[selectedBusinessMetric] || [];
         
         // Create modal overlay
         const modalOverlay = document.createElement('div');
@@ -271,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const modalTitle = document.createElement('h3');
         modalTitle.className = 'modal-title';
-        modalTitle.textContent = `URLs Included in ${businessMetrics[metricKey].name} Score`;
+        modalTitle.textContent = `URLs Included in ${businessMetrics[selectedBusinessMetric].name} Score`;
         
         const closeButton = document.createElement('button');
         closeButton.className = 'modal-close';
@@ -294,27 +392,13 @@ document.addEventListener('DOMContentLoaded', () => {
             urls.forEach(urlData => {
                 const listItem = document.createElement('li');
                 
-                const urlInfo = document.createElement('div');
-                urlInfo.className = 'url-info';
-                
+                // Just show the URL without issue or performance data
                 const urlLink = document.createElement('a');
                 urlLink.href = urlData.url;
                 urlLink.target = '_blank';
                 urlLink.textContent = urlData.url;
                 
-                const issueSpan = document.createElement('div');
-                issueSpan.className = 'url-issue';
-                issueSpan.textContent = urlData.issue ? `Issue: ${urlData.issue}` : 'No issues detected';
-                
-                urlInfo.appendChild(urlLink);
-                urlInfo.appendChild(issueSpan);
-                
-                const performanceSpan = document.createElement('span');
-                performanceSpan.className = 'url-performance';
-                performanceSpan.textContent = urlData.performance;
-                
-                listItem.appendChild(urlInfo);
-                listItem.appendChild(performanceSpan);
+                listItem.appendChild(urlLink);
                 
                 urlList.appendChild(listItem);
             });
@@ -336,8 +420,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Event listener for Show URLs button
     showUrlsButton.addEventListener('click', () => {
-        if (currentMetric) {
-            createUrlModal(currentMetric);
+        if (selectedBusinessMetric) {
+            createUrlModal(selectedBusinessMetric);
         } else {
             showNotification('Please select a business metric first');
         }
@@ -360,9 +444,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Event listener for metric selection
+    // Event listener for reconfigure button
+    configureNewButton.addEventListener('click', () => {
+        // Hide metrics section and show configuration section
+        metricsSection.classList.add('hidden');
+        configSection.classList.remove('hidden');
+        urlConfigSection.classList.add('hidden');
+        selectedBusinessMetric = null;
+    });
+
+    // Event listener for metric selection in configuration
     metricCards.forEach(card => {
         card.addEventListener('click', () => {
+            // Skip if the card is disabled
+            if (card.classList.contains('disabled')) {
+                showNotification('This business metric is coming soon');
+                return;
+            }
+            
             // Remove selected class from all cards
             metricCards.forEach(c => c.classList.remove('selected'));
             
@@ -372,25 +471,36 @@ document.addEventListener('DOMContentLoaded', () => {
             // Get the selected metric
             const metricKey = card.getAttribute('data-metric');
             
-            // Display the fitness functions for the selected metric
-            displayFitnessFunctions(metricKey);
+            // Set the selected business metric
+            selectedBusinessMetric = metricKey;
+            
+            // Update the business metric name display
+            businessMetricName.textContent = businessMetrics[metricKey].name;
+            
+            // Hide configuration section
+            configSection.classList.add('hidden');
+            
+            // Clear previous URL inputs and add a fresh one
+            urlInputsContainer.innerHTML = '';
+            const initialInput = createUrlInput();
+            initialInput.querySelector('.remove-url-btn').style.display = 'none'; // Hide remove button for first input
+            urlInputsContainer.appendChild(initialInput);
+            
+            // Show URL configuration section
+            urlConfigSection.classList.remove('hidden');
         });
     });
 
     // Function to display fitness functions for a selected metric
     function displayFitnessFunctions(metricKey) {
-        // Update current metric
-        currentMetric = metricKey;
-        
         // Hide the select prompt
         selectPrompt.classList.add('hidden');
         
+        // Hide the diagnostics section
+        diagnosticsSection.classList.add('hidden');
+        
         // Show the functions table
         functionsTable.classList.remove('hidden');
-        
-        // Hide the diagnostics section when changing metrics
-        diagnosticsSection.classList.add('hidden');
-        activeRowId = null;
         
         // Clear the previous functions
         functionsList.innerHTML = '';
@@ -401,115 +511,128 @@ document.addEventListener('DOMContentLoaded', () => {
         // Populate the table with functions
         functions.forEach(func => {
             const row = document.createElement('tr');
+            row.className = 'parent-row';
+            row.setAttribute('data-function-id', func.id);
             
-            // Calculate initial financial impact
-            const initialImpact = calculateFinancialImpact(func);
-            
-            // Add clickable class for the page_load_time row
-            if (func.id === "page_load_time") {
-                row.classList.add('clickable-row');
-                row.id = `row-${func.id}`;
-            }
+            // Get trend classes for 3-month and current values
+            const trendClassThreeMonths = getTrendClass(func.values.threeMonthsAgo, func.values.sixMonthsAgo);
+            const trendClassCurrent = getTrendClass(func.values.current, func.values.threeMonthsAgo);
             
             row.innerHTML = `
-                <td>${func.name}</td>
+                <td>
+                    <span class="expand-icon">+</span> ${func.name}
+                </td>
                 <td>${func.description}</td>
-                <td>${func.currentValue}</td>
                 <td>
-                    <div class="target-input-container">
-                        <input 
-                            type="text" 
-                            id="target-${func.id}" 
-                            value="${func.target}" 
-                            data-original="${func.target}"
-                            data-unit="${func.unit}"
-                        />
-                        <span class="unit-label">${func.unit}</span>
-                    </div>
+                    <span class="historical-value six-months-ago">
+                        ${func.values.sixMonthsAgo}
+                    </span>
                 </td>
                 <td>
-                    <button id="save-${func.id}" class="save-btn">Save</button>
-                    <button id="reset-${func.id}" class="reset-btn" style="display: none;">Reset</button>
+                    <span class="historical-value three-months-ago ${trendClassThreeMonths}">
+                        ${func.values.threeMonthsAgo}
+                        <span class="trend-indicator"></span>
+                    </span>
                 </td>
-                <td class="impact-cell" id="impact-${func.id}">$${initialImpact.toLocaleString()}</td>
+                <td>
+                    <span class="historical-value current ${trendClassCurrent}">
+                        ${func.values.current}
+                        <span class="trend-indicator"></span>
+                    </span>
+                </td>
+                <td class="rev-impact">${func.revImpact}</td>
             `;
             
             functionsList.appendChild(row);
             
-            // Add event listeners for save and reset buttons after DOM is updated
-            setTimeout(() => {
-                const saveBtn = document.getElementById(`save-${func.id}`);
-                const resetBtn = document.getElementById(`reset-${func.id}`);
-                const targetInput = document.getElementById(`target-${func.id}`);
+            // Add click event for parent row to expand/collapse
+            row.addEventListener('click', (e) => {
+                // Don't trigger when clicking on specific elements
+                if (e.target.tagName === 'BUTTON') {
+                    return;
+                }
                 
-                // Add click event for page_load_time row to show/hide diagnostics
-                if (func.id === "page_load_time") {
-                    const pageLoadRow = document.getElementById(`row-${func.id}`);
-                    if (pageLoadRow) {
-                        pageLoadRow.addEventListener('click', (e) => {
-                            // Don't trigger when clicking on inputs or buttons
-                            if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') {
-                                return;
-                            }
+                const expandIcon = row.querySelector('.expand-icon');
+                
+                // Toggle expanded state
+                if (row.classList.contains('expanded')) {
+                    // Collapse
+                    row.classList.remove('expanded');
+                    expandIcon.textContent = '+';
+                    
+                    // Remove all URL rows
+                    const urlRows = document.querySelectorAll(`.url-row[data-parent="${func.id}"]`);
+                    urlRows.forEach(urlRow => urlRow.remove());
+                    
+                    // Hide diagnostics section if it's for this function
+                    if (activeRowId === func.id) {
+                        diagnosticsSection.classList.add('hidden');
+                        activeRowId = null;
+                        activeUrlIndex = null;
+                    }
+                } else {
+                    // Expand
+                    row.classList.add('expanded');
+                    expandIcon.textContent = '-';
+                    
+                    // Add URL-specific rows if available
+                    if (func.urlSpecificValues && func.urlSpecificValues.length > 0) {
+                        func.urlSpecificValues.forEach((urlData, index) => {
+                            const urlRow = document.createElement('tr');
+                            urlRow.className = 'url-row';
+                            urlRow.setAttribute('data-parent', func.id);
+                            urlRow.setAttribute('data-url-index', index);
                             
-                            // Toggle the active class on the row
-                            pageLoadRow.classList.toggle('active');
+                            // Get trend classes for URL-specific values
+                            const urlTrendClassThreeMonths = getTrendClass(urlData.values.threeMonthsAgo, urlData.values.sixMonthsAgo);
+                            const urlTrendClassCurrent = getTrendClass(urlData.values.current, urlData.values.threeMonthsAgo);
                             
-                            // Toggle the diagnostics section
-                            if (diagnosticsSection.classList.contains('hidden')) {
+                            const shortenedUrl = urlData.url.length > 40 ? 
+                                urlData.url.substring(0, 37) + '...' : 
+                                urlData.url;
+                            
+                            urlRow.innerHTML = `
+                                <td class="url-cell">${shortenedUrl}</td>
+                                <td></td>
+                                <td>
+                                    <span class="historical-value six-months-ago">
+                                        ${urlData.values.sixMonthsAgo}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="historical-value three-months-ago ${urlTrendClassThreeMonths}">
+                                        ${urlData.values.threeMonthsAgo}
+                                        <span class="trend-indicator"></span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="historical-value current ${urlTrendClassCurrent}">
+                                        ${urlData.values.current}
+                                        <span class="trend-indicator"></span>
+                                    </span>
+                                </td>
+                                <td></td>
+                            `;
+                            
+                            // Insert URL row after the parent row
+                            row.after(urlRow);
+                            
+                            // Add click event for URL row to show diagnostics
+                            urlRow.addEventListener('click', (e) => {
+                                // Set active URL row
+                                const allUrlRows = document.querySelectorAll('.url-row');
+                                allUrlRows.forEach(r => r.classList.remove('active'));
+                                urlRow.classList.add('active');
+                                
+                                // Show diagnostics section
                                 diagnosticsSection.classList.remove('hidden');
                                 activeRowId = func.id;
-                            } else {
-                                if (activeRowId === func.id) {
-                                    diagnosticsSection.classList.add('hidden');
-                                    activeRowId = null;
-                                } else {
-                                    activeRowId = func.id;
-                                }
-                            }
+                                activeUrlIndex = index;
+                            });
                         });
                     }
                 }
-                
-                if (saveBtn && resetBtn && targetInput) {
-                    saveBtn.addEventListener('click', () => {
-                        const newTarget = targetInput.value;
-                        func.target = newTarget;
-                        targetInput.setAttribute('data-original', newTarget);
-                        saveBtn.style.display = 'none';
-                        resetBtn.style.display = 'inline-block';
-                        
-                        // Update financial impact
-                        updateFinancialImpact(func);
-                        
-                        // Show success notification
-                        showNotification(`Target for ${func.name} updated to ${newTarget} ${func.unit}`);
-                    });
-                    
-                    resetBtn.addEventListener('click', () => {
-                        const originalTarget = targetInput.getAttribute('data-original');
-                        targetInput.value = originalTarget;
-                        resetBtn.style.display = 'none';
-                        saveBtn.style.display = 'inline-block';
-                    });
-                    
-                    // Add event listener for input change
-                    targetInput.addEventListener('input', () => {
-                        if (targetInput.value !== targetInput.getAttribute('data-original')) {
-                            saveBtn.style.display = 'inline-block';
-                            resetBtn.style.display = 'none';
-                        } else {
-                            saveBtn.style.display = 'none';
-                            resetBtn.style.display = 'inline-block';
-                        }
-                        
-                        // Update financial impact in real-time
-                        const tempFunc = {...func, target: targetInput.value};
-                        updateFinancialImpact(tempFunc);
-                    });
-                }
-            }, 0);
-        
+            });
         });
     }
 
@@ -580,6 +703,46 @@ styleElement.textContent = `
     @keyframes fade-out {
         from { opacity: 1; }
         to { opacity: 0; }
+    }
+    
+    /* Expandable rows styles */
+    .parent-row {
+        cursor: pointer;
+        font-weight: bold;
+        background-color: var(--bg-color);
+    }
+    
+    .parent-row:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+    }
+    
+    .parent-row.expanded {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .expand-icon {
+        display: inline-block;
+        width: 20px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .url-row {
+        background-color: var(--card-bg);
+        cursor: pointer;
+    }
+    
+    .url-row:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+    
+    .url-row.active {
+        background-color: rgba(204, 102, 51, 0.1);
+    }
+    
+    .url-cell {
+        padding-left: 30px;
+        font-style: italic;
     }
 `;
 document.head.appendChild(styleElement);

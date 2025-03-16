@@ -13,46 +13,81 @@
         </header>
 
         <main>
-            <section class="metrics-selector">
+            <!-- Configuration Section -->
+            <section id="configSection" class="metrics-selector">
                 <div class="header-controls">
                     <h2>Select Business Metric</h2>
-                    <button id="showUrlsButton" class="primary-button">View URLs in Score</button>
                 </div>
+                <p class="configuration-description">
+                    Select a business metric to monitor. This will determine which performance metrics are most relevant to track.
+                </p>
                 <div class="metrics-grid">
                     <div class="metric-card" data-metric="conversion_rate">
                         <h3>Conversion Rate</h3>
                         <p>Percentage of visitors who complete a purchase</p>
                     </div>
-                    <div class="metric-card" data-metric="bounce_rate">
+                    <div class="metric-card disabled" data-metric="bounce_rate">
+                        <div class="coming-soon-tag">Coming soon</div>
                         <h3>Bounce Rate</h3>
                         <p>Percentage of visitors who leave without interaction</p>
                     </div>
-                    <div class="metric-card" data-metric="page_views">
+                    <div class="metric-card disabled" data-metric="page_views">
+                        <div class="coming-soon-tag">Coming soon</div>
                         <h3>Page Views</h3>
                         <p>Total number of pages viewed by users</p>
                     </div>
                 </div>
             </section>
 
-            <section class="fitness-functions" id="fitnessFunctions">
-                <h2>Technical Fitness Functions</h2>
-                <p class="select-prompt">Select a business metric to see its technical fitness functions</p>
-                <div class="functions-table hidden" id="functionsTable">
-                    <table>
+            <!-- URL Configuration Section -->
+            <section id="urlConfigSection" class="url-config-section hidden">
+                <div class="header-controls">
+                    <h2>Enter URLs in Your Conversion Flow</h2>
+                </div>
+                <p class="configuration-description">
+                    Add the URLs that are part of your conversion flow. These will be analyzed for performance metrics.
+                </p>
+                <div class="url-inputs-container">
+                    <div class="url-input-group">
+                        <input type="text" class="url-input" placeholder="https://example.com/page">
+                        <button class="remove-url-btn">Remove</button>
+                    </div>
+                </div>
+                <div class="url-config-buttons">
+                    <button id="addUrlButton" class="secondary-button">Add Another URL</button>
+                    <button id="seeFunctionButton" class="primary-button">See Fitness Functions</button>
+                </div>
+            </section>
+
+            <!-- Metrics Display Section -->
+            <section id="metricsSection" class="metrics-display">
+                <div class="header-controls">
+                    <h2>Technical Fitness Functions for <span id="businessMetricName">Business Metric</span></h2>
+                    <div class="header-buttons">
+                        <button id="configureNewButton" class="secondary-button">Change Business Metric</button>
+                        <button id="showUrlsButton" class="primary-button">View URLs in Score</button>
+                    </div>
+                </div>
+                
+                <div class="fitness-functions" id="fitnessFunctions">
+                    <div class="functions-table" id="functionsTable">
+                        <table>
                         <thead>
                             <tr>
                                 <th>Fitness Function</th>
                                 <th>Description</th>
-                                <th>Current Value</th>
-                                <th>Target Value</th>
-                                <th>Action</th>
-                                <th>$ Potential Revenue Impact</th>
+                                <th>6 Months Ago</th>
+                                <th>3 Months Ago</th>
+                                <th>Current</th>
+                                <th>Est. $ Rev Impact</th>
                             </tr>
                         </thead>
-                        <tbody id="functionsList">
-                            <!-- Fitness functions will be populated here -->
-                        </tbody>
-                    </table>
+                            <tbody id="functionsList">
+                                <!-- Fitness functions will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="select-prompt">Select a business metric to see its technical fitness functions</p>
                     <p class="revenue-note">All potential revenue impact calculations are based on annual revenue of $200M.</p>
                 </div>
                 
