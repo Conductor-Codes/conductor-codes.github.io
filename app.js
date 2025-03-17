@@ -94,7 +94,7 @@ const businessMetrics = {
                     current: "71"
                 },
                 unit: "",
-                revImpact: "$190,000"
+                revImpact: "$10,000"
             },
             {
                 id: "largest_contentful_paint",
@@ -147,7 +147,7 @@ const businessMetrics = {
                     current: "68"
                 },
                 unit: "",
-                revImpact: "$210,000"
+                revImpact: "$10,000"
             },
             {
                 id: "largest_contentful_paint",
@@ -572,30 +572,71 @@ document.addEventListener('DOMContentLoaded', () => {
             const trendClassThreeMonths = getTrendClass(func.values.threeMonthsAgo, func.values.sixMonthsAgo, isAccessibility);
             const trendClassCurrent = getTrendClass(func.values.current, func.values.threeMonthsAgo, isAccessibility);
             
-            row.innerHTML = `
-                <td>
-                    <span class="expand-icon">+</span> ${func.name}
-                </td>
-                <td>${func.description}</td>
-                <td>
-                    <span class="historical-value six-months-ago">
-                        ${func.values.sixMonthsAgo}
-                    </span>
-                </td>
-                <td>
-                    <span class="historical-value three-months-ago ${trendClassThreeMonths}">
-                        ${func.values.threeMonthsAgo}
-                        <span class="trend-indicator"></span>
-                    </span>
-                </td>
-                <td>
-                    <span class="historical-value current ${trendClassCurrent}">
-                        ${func.values.current}
-                        <span class="trend-indicator"></span>
-                    </span>
-                </td>
-                <td class="rev-impact">${func.revImpact}</td>
-            `;
+            // Special styling for accessibility score - ONLY use downward arrows and red text
+            if (func.id === 'accessibility_score') {
+                // Create a custom CSS class to properly handle accessibility scores
+                const accessibilityStyle = document.createElement('style');
+                accessibilityStyle.textContent = `
+                    .accessibility-trend-down .trend-indicator::after {
+                        content: "▼" !important;
+                        color: var(--trend-worse-color, #e74c3c) !important;
+                    }
+                    .accessibility-trend-down {
+                        color: var(--trend-worse-color, #e74c3c) !important;
+                    }
+                `;
+                document.head.appendChild(accessibilityStyle);
+                
+                row.innerHTML = `
+                    <td>
+                        <span class="expand-icon">+</span> ${func.name}
+                    </td>
+                    <td>${func.description}</td>
+                    <td>
+                        <span class="historical-value six-months-ago">
+                            ${func.values.sixMonthsAgo}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="historical-value three-months-ago accessibility-trend-down">
+                            ${func.values.threeMonthsAgo}
+                            <span class="trend-indicator"></span>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="historical-value current accessibility-trend-down">
+                            ${func.values.current}
+                            <span class="trend-indicator"></span>
+                        </span>
+                    </td>
+                    <td class="rev-impact">${func.revImpact}</td>
+                `;
+            } else {
+                row.innerHTML = `
+                    <td>
+                        <span class="expand-icon">+</span> ${func.name}
+                    </td>
+                    <td>${func.description}</td>
+                    <td>
+                        <span class="historical-value six-months-ago">
+                            ${func.values.sixMonthsAgo}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="historical-value three-months-ago ${trendClassThreeMonths}">
+                            ${func.values.threeMonthsAgo}
+                            <span class="trend-indicator"></span>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="historical-value current ${trendClassCurrent}">
+                            ${func.values.current}
+                            <span class="trend-indicator"></span>
+                        </span>
+                    </td>
+                    <td class="rev-impact">${func.revImpact}</td>
+                `;
+            }
             
             functionsList.appendChild(row);
             
@@ -675,36 +716,75 @@ document.addEventListener('DOMContentLoaded', () => {
                             urlRow.setAttribute('data-parent', func.id);
                             urlRow.setAttribute('data-url-index', index);
                             
-                            // Get trend classes for URL-specific values
-                            const urlTrendClassThreeMonths = getTrendClass(urlData.values.threeMonthsAgo, urlData.values.sixMonthsAgo);
-                            const urlTrendClassCurrent = getTrendClass(urlData.values.current, urlData.values.threeMonthsAgo);
-                            
                             const shortenedUrl = urlData.url.length > 40 ? 
                                 urlData.url.substring(0, 37) + '...' : 
                                 urlData.url;
                             
-                            urlRow.innerHTML = `
-                                <td class="url-cell">${shortenedUrl}</td>
-                                <td></td>
-                                <td>
-                                    <span class="historical-value six-months-ago">
-                                        ${urlData.values.sixMonthsAgo}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="historical-value three-months-ago ${urlTrendClassThreeMonths}">
-                                        ${urlData.values.threeMonthsAgo}
-                                        <span class="trend-indicator"></span>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="historical-value current ${urlTrendClassCurrent}">
-                                        ${urlData.values.current}
-                                        <span class="trend-indicator"></span>
-                                    </span>
-                                </td>
-                                <td></td>
-                            `;
+                            // For accessibility score URL rows, ONLY use downward arrows and red text
+                            if (func.id === 'accessibility_score') {
+                                // Custom style for accessibility URL rows
+                                const accessibilityUrlStyle = document.createElement('style');
+                                accessibilityUrlStyle.textContent = `
+                                    .accessibility-url-value {
+                                        color: var(--trend-worse-color, #e74c3c) !important;
+                                    }
+                                    .accessibility-url-value .trend-indicator::after {
+                                        content: "▼" !important;
+                                        color: var(--trend-worse-color, #e74c3c) !important;
+                                    }
+                                `;
+                                document.head.appendChild(accessibilityUrlStyle);
+                                
+                                urlRow.innerHTML = `
+                                    <td class="url-cell">${shortenedUrl}</td>
+                                    <td></td>
+                                    <td>
+                                        <span class="historical-value six-months-ago">
+                                            ${urlData.values.sixMonthsAgo}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="historical-value three-months-ago accessibility-url-value">
+                                            ${urlData.values.threeMonthsAgo}
+                                            <span class="trend-indicator"></span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="historical-value current accessibility-url-value">
+                                            ${urlData.values.current}
+                                            <span class="trend-indicator"></span>
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                `;
+                            } else {
+                                // Get trend classes for non-accessibility URL-specific values
+                                const urlTrendClassThreeMonths = getTrendClass(urlData.values.threeMonthsAgo, urlData.values.sixMonthsAgo);
+                                const urlTrendClassCurrent = getTrendClass(urlData.values.current, urlData.values.threeMonthsAgo);
+                                
+                                urlRow.innerHTML = `
+                                    <td class="url-cell">${shortenedUrl}</td>
+                                    <td></td>
+                                    <td>
+                                        <span class="historical-value six-months-ago">
+                                            ${urlData.values.sixMonthsAgo}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="historical-value three-months-ago ${urlTrendClassThreeMonths}">
+                                            ${urlData.values.threeMonthsAgo}
+                                            <span class="trend-indicator"></span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="historical-value current ${urlTrendClassCurrent}">
+                                            ${urlData.values.current}
+                                            <span class="trend-indicator"></span>
+                                        </span>
+                                    </td>
+                                    <td></td>
+                                `;
+                            }
                             
                             // Insert URL row after the parent row
                             row.after(urlRow);
