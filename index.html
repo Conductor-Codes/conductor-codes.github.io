@@ -91,9 +91,9 @@
                     <p class="revenue-note">All potential revenue impact calculations are based on annual revenue of $200M.</p>
                 </div>
                 
-                <!-- Diagnostics section that will be shown when clicking on Average Page Load Time -->
+                <!-- Diagnostics section that will be shown when clicking on a URL row -->
                 <div class="diagnostics-section hidden" id="diagnosticsSection">
-                    <h3>Diagnostics</h3>
+                    <h3>Detailed Diagnostics</h3>
                     <table class="diagnostics-table">
                         <thead>
                             <tr>
@@ -101,15 +101,8 @@
                                 <th>Value</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Minimize main-thread work</td>
-                                <td>9.8s</td>
-                            </tr>
-                            <tr>
-                                <td>Reduce JavaScript execution time</td>
-                                <td>6.7s</td>
-                            </tr>
+                        <tbody id="diagnosticsTableBody">
+                            <!-- Diagnostics will be populated based on the selected metric -->
                         </tbody>
                     </table>
                 </div>
