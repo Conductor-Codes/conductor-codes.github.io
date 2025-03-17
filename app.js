@@ -66,12 +66,36 @@ const businessMetrics = {
                 },
                 unit: "ms",
                 revImpact: "$180,000"
+            },
+            {
+                id: "accessibility_score",
+                name: "Accessibility Score",
+                description: "Overall accessibility compliance score based on WCAG guidelines",
+                values: {
+                    sixMonthsAgo: "78",
+                    threeMonthsAgo: "72",
+                    current: "65"
+                },
+                unit: "",
+                revImpact: "$10,000"
             }
         ]
     },
     bounce_rate: {
         name: "Bounce Rate",
         functions: [
+            {
+                id: "accessibility_score",
+                name: "Accessibility Score",
+                description: "Overall accessibility compliance score based on WCAG guidelines",
+                values: {
+                    sixMonthsAgo: "82",
+                    threeMonthsAgo: "76",
+                    current: "71"
+                },
+                unit: "",
+                revImpact: "$190,000"
+            },
             {
                 id: "largest_contentful_paint",
                 name: "Avg Largest Contentful Paint",
@@ -113,6 +137,18 @@ const businessMetrics = {
     page_views: {
         name: "Page Views",
         functions: [
+            {
+                id: "accessibility_score",
+                name: "Accessibility Score",
+                description: "Overall accessibility compliance score based on WCAG guidelines",
+                values: {
+                    sixMonthsAgo: "81",
+                    threeMonthsAgo: "75",
+                    current: "68"
+                },
+                unit: "",
+                revImpact: "$210,000"
+            },
             {
                 id: "largest_contentful_paint",
                 name: "Avg Largest Contentful Paint",
@@ -157,16 +193,28 @@ const businessMetrics = {
 let selectedBusinessMetric = null;
 
 // Function to get trend class based on values
-function getTrendClass(currentValue, previousValue) {
+function getTrendClass(currentValue, previousValue, isAccessibilityScore = false) {
     const current = parseFloat(currentValue.split(' ')[0]);
     const previous = parseFloat(previousValue.split(' ')[0]);
     
-    if (current > previous) {
-        return 'trend-worse';
-    } else if (current < previous) {
-        return 'trend-better';
+    // For accessibility scores, higher is better (opposite of performance metrics)
+    if (isAccessibilityScore) {
+        if (current > previous) {
+            return 'trend-better';
+        } else if (current < previous) {
+            return 'trend-worse';
+        } else {
+            return 'trend-neutral';
+        }
     } else {
-        return 'trend-neutral';
+        // For performance metrics, lower is better
+        if (current > previous) {
+            return 'trend-worse';
+        } else if (current < previous) {
+            return 'trend-better';
+        } else {
+            return 'trend-neutral';
+        }
     }
 }
 
@@ -268,6 +316,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
+        // If no URLs were provided, add a default one
+        if (userUrls.length === 0) {
+            userUrls.push('https://example.com/page');
+        }
+        
         // Hide URL config section
         urlConfigSection.classList.add('hidden');
         
@@ -282,17 +335,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 issue: "Under analysis"
             }));
             
-            // Generate URL-specific metrics data that averages to the parent metrics
-            const metrics = businessMetrics[selectedBusinessMetric].functions;
-            metrics.forEach(metric => {
-                // Reset URL specific values whenever we regenerate
-                metric.urlSpecificValues = [];
-                
-                const sixMonthsAgoBase = parseFloat(metric.values.sixMonthsAgo.split(' ')[0]);
-                const threeMonthsAgoBase = parseFloat(metric.values.threeMonthsAgo.split(' ')[0]);
-                const currentBase = parseFloat(metric.values.current.split(' ')[0]);
-                const unit = metric.values.sixMonthsAgo.includes(' ') ? 
-                    metric.values.sixMonthsAgo.split(' ')[1] : metric.unit;
+                                // Generate URL-specific metrics data that averages to the parent metrics
+                                const metrics = businessMetrics[selectedBusinessMetric].functions;
+                                metrics.forEach(metric => {
+                                    // Reset URL specific values whenever we regenerate
+                                    metric.urlSpecificValues = [];
+                                    
+                                    const sixMonthsAgoBase = parseFloat(metric.values.sixMonthsAgo.split(' ')[0]);
+                                    const threeMonthsAgoBase = parseFloat(metric.values.threeMonthsAgo.split(' ')[0]);
+                                    const currentBase = parseFloat(metric.values.current.split(' ')[0]);
+                                    const unit = metric.values.sixMonthsAgo.includes(' ') ? 
+                                        metric.values.sixMonthsAgo.split(' ')[1] : '';
                 
                 // Generate random variations that average out to the parent value
                 const numUrls = userUrls.length;
@@ -514,9 +567,10 @@ document.addEventListener('DOMContentLoaded', () => {
             row.className = 'parent-row';
             row.setAttribute('data-function-id', func.id);
             
-            // Get trend classes for 3-month and current values
-            const trendClassThreeMonths = getTrendClass(func.values.threeMonthsAgo, func.values.sixMonthsAgo);
-            const trendClassCurrent = getTrendClass(func.values.current, func.values.threeMonthsAgo);
+            // Get trend classes for 3-month and current values - check if it's accessibility score
+            const isAccessibility = func.id === 'accessibility_score';
+            const trendClassThreeMonths = getTrendClass(func.values.threeMonthsAgo, func.values.sixMonthsAgo, isAccessibility);
+            const trendClassCurrent = getTrendClass(func.values.current, func.values.threeMonthsAgo, isAccessibility);
             
             row.innerHTML = `
                 <td>
@@ -545,14 +599,17 @@ document.addEventListener('DOMContentLoaded', () => {
             
             functionsList.appendChild(row);
             
-            // Add click event for parent row to expand/collapse
-            row.addEventListener('click', (e) => {
-                // Don't trigger when clicking on specific elements
-                if (e.target.tagName === 'BUTTON') {
-                    return;
-                }
-                
-                const expandIcon = row.querySelector('.expand-icon');
+                // Add click event for parent row to expand/collapse
+                row.addEventListener('click', (e) => {
+                    // Don't trigger when clicking on specific elements
+                    if (e.target.tagName === 'BUTTON') {
+                        return;
+                    }
+                    
+                    // Remove the immediate diagnostics display when clicking the main accessibility row
+                    // Instead, we'll only show diagnostics when clicking on URL subrows
+                    
+                    const expandIcon = row.querySelector('.expand-icon');
                 
                 // Toggle expanded state
                 if (row.classList.contains('expanded')) {
@@ -574,6 +631,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Expand
                     row.classList.add('expanded');
                     expandIcon.textContent = '-';
+                    
+                    // If this is the accessibility score, always create sample URL rows
+                    if (func.id === 'accessibility_score') {
+                        // Create sample URL entries for accessibility score
+                        func.urlSpecificValues = [
+                            {
+                                url: 'https://example.com/homepage',
+                                values: {
+                                    sixMonthsAgo: '76',
+                                    threeMonthsAgo: '70',
+                                    current: '63'
+                                }
+                            },
+                            {
+                                url: 'https://example.com/product',
+                                values: {
+                                    sixMonthsAgo: '80',
+                                    threeMonthsAgo: '74',
+                                    current: '67'
+                                }
+                            }
+                        ];
+                        
+                        // If user added URLs, replace our samples
+                        if (userUrls && userUrls.length > 0) {
+                            func.urlSpecificValues = userUrls.map(url => ({
+                                url: url,
+                                values: {
+                                    sixMonthsAgo: Math.floor(75 + Math.random() * 10).toString(),
+                                    threeMonthsAgo: Math.floor(68 + Math.random() * 10).toString(),
+                                    current: Math.floor(60 + Math.random() * 10).toString()
+                                }
+                            }));
+                        }
+                    }
                     
                     // Add URL-specific rows if available
                     if (func.urlSpecificValues && func.urlSpecificValues.length > 0) {
@@ -628,6 +720,62 @@ document.addEventListener('DOMContentLoaded', () => {
                                 diagnosticsSection.classList.remove('hidden');
                                 activeRowId = func.id;
                                 activeUrlIndex = index;
+                                
+                                // Update diagnostics content based on the function ID
+                                const diagnosticsTableBody = document.getElementById('diagnosticsTableBody');
+                                if (diagnosticsTableBody) {
+                                    diagnosticsTableBody.innerHTML = '';
+                                    
+                                    if (func.id === 'accessibility_score') {
+                                        // Add accessibility-specific diagnostics
+                                        diagnosticsTableBody.innerHTML = `
+                                            <tr>
+                                                <td>Background and foreground colors do not have a sufficient contrast ratio.</td>
+                                                <td>Found on ${Math.floor(Math.random() * 5) + 1} elements</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Heading elements are not in a sequentially-descending order</td>
+                                                <td>Found on ${Math.floor(Math.random() * 3) + 1} elements</td>
+                                            </tr>
+                                        `;
+                                    } else if (func.id === 'largest_contentful_paint') {
+                                        // Keep existing diagnostics for LCP
+                                        diagnosticsTableBody.innerHTML = `
+                                            <tr>
+                                                <td>Minimize main-thread work</td>
+                                                <td>9.8s</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Reduce JavaScript execution time</td>
+                                                <td>6.7s</td>
+                                            </tr>
+                                        `;
+                                    } else if (func.id === 'speed_index') {
+                                        // Add speed index diagnostics
+                                        diagnosticsTableBody.innerHTML = `
+                                            <tr>
+                                                <td>Eliminate render-blocking resources</td>
+                                                <td>Potential savings: 1.2s</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Defer offscreen images</td>
+                                                <td>Potential savings: 0.8s</td>
+                                            </tr>
+                                        `;
+                                    } else if (func.id === 'total_blocking_time') {
+                                        // Add total blocking time diagnostics
+                                        diagnosticsTableBody.innerHTML = `
+                                            <tr>
+                                                <td>Reduce third-party code impact</td>
+                                                <td>Blocking time: 120ms</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Minimize critical request chains</td>
+                                                <td>Chains found: 4</td>
+                                            </tr>
+                                        `;
+                                    }
+                                }
                             });
                         });
                     }
